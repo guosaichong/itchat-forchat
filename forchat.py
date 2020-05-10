@@ -118,6 +118,7 @@ def delete_word(char):
             select = "delete FROM english WHERE word='{}';".format(char)
             cur.execute(select)
             conn.commit()
+            itchat.send_msg("已删除", toUserName='filehelper')
         cur.close()
         conn.close()
     except Exception as e:
@@ -129,6 +130,7 @@ def add_word(char):
     cur = conn.cursor()
     cur.execute("select * from english where word='%s' limit 1;"%char)
     u = cur.fetchone()
+    print(u)
     if u == None:
         paraph=get_data(char)
         word=paraph[0]
@@ -155,9 +157,11 @@ def text_reply(msg):
             os.system(msg.text.strip(msg.text[0]+msg.text[1]+msg.text[2]+msg.text[3]))
         if msg.text[0]+msg.text[1]+msg.text[2] == "del":
             char=msg.text.strip(msg.text[0]+msg.text[1]+msg.text[2]+msg.text[3])
+            # print(char)
             delete_word(char)
         if msg.text[0]+msg.text[1]+msg.text[2] == "add":
             char=msg.text.strip(msg.text[0]+msg.text[1]+msg.text[2]+msg.text[3])
+            # print(char)
             add_word(char)
 def main():
     while True:
