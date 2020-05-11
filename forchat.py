@@ -130,7 +130,7 @@ def add_word(char):
     cur = conn.cursor()
     cur.execute("select * from english where word='%s' limit 1;"%char)
     u = cur.fetchone()
-    print(u)
+    # print(u)
     if u == None:
         paraph=get_data(char)
         word=paraph[0]
