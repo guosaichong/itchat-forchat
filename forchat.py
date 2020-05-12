@@ -154,13 +154,13 @@ def add_word(char):
 def text_reply(msg):
     if msg["ToUserName"]=="filehelper":
         if msg.text[0]+msg.text[1]+msg.text[2] == "cmd":
-            os.system(msg.text.strip(msg.text[0]+msg.text[1]+msg.text[2]+msg.text[3]))
+            os.system(msg.text[4:])
         if msg.text[0]+msg.text[1]+msg.text[2] == "del":
-            char=msg.text.strip(msg.text[0]+msg.text[1]+msg.text[2]+msg.text[3])
+            char=msg.text[4:]
             # print(char)
             delete_word(char)
         if msg.text[0]+msg.text[1]+msg.text[2] == "add":
-            char=msg.text.strip(msg.text[0]+msg.text[1]+msg.text[2]+msg.text[3])
+            char=msg.text[4:]
             # print(char)
             add_word(char)
 def main():
