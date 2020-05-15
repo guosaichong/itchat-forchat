@@ -7,7 +7,6 @@ import itchat
 from itchat.content import PICTURE, RECORDING, ATTACHMENT, VIDEO
 from lxml import etree
 import pymysql
-from ftplib import FTP
 from youdao import get_data
 
 
@@ -33,11 +32,6 @@ def dosth1():
         conn.close()
     except:
         print("could not connect to mysql server")
-def checkComputer():
-    ftp=FTP()
-    f=ftp.connect('111.33.43.98',21)
-    if f != "220 Microsoft FTP Service":
-        itchat.send("电脑已离线！",toUserName="filehelper")
 def dosth():
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3947.100 '
@@ -175,13 +169,6 @@ def main():
         if now.hour in [9,10,11,12,13,14,15,16,17,18,19,20] and now.minute in [30]:
             dosth1()
             time.sleep(60)
-        if now.hour in [21,22,23,0,1,2,3,4,5,6,7] and now.minute in [30]:
-            checkComputer()
-            time.sleep(60)
-        if now.weekday() in [5,6]:
-            if now.minute in [30]:
-                checkComputer()
-                time.sleep(60)
 
 if __name__=="__main__":
     if not os.path.exists(r'C:\Users\Administrator\Desktop\微信文件'):
