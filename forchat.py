@@ -8,6 +8,7 @@ from itchat.content import PICTURE, RECORDING, ATTACHMENT, VIDEO
 from lxml import etree
 import pymysql
 from youdao import get_data
+from mysql_operate import computer_query
 
 
 @itchat.msg_register([PICTURE, RECORDING, ATTACHMENT, VIDEO])
@@ -49,21 +50,24 @@ def dosth():
 
     # 天气信息
     try:
-        tianqi_url = 'http://tianqi.2345.com/ninghe/60517.htm'
+        tianqi_url = 'http://tianqi.2345.com/ninghe1d/60517.htm'
         tianqi_response = requests.get(tianqi_url, headers=headers)
         tianqi_response.encoding = tianqi_response.apparent_encoding
-        #print(tianqi_response.text)
+        # print(tianqi_response.text)
         tianqi_html = etree.HTML(tianqi_response.text)
-        tianqi_data1=tianqi_html.xpath('//div[@id="day7info"]/ul[1]/li[1]/b/text()')[0]
-        tianqi_data2=tianqi_html.xpath('//div[@id="day7info"]/ul[1]/li[1]/i/font/text()')[0]
-        tianqi_data3=tianqi_html.xpath('//div[@id="day7info"]/ul[1]/li[1]/i/text()')[0]
-        tianqi_data4=tianqi_html.xpath('//div[@id="day7info"]/ul[1]/li[1]/i/font/text()')[1]
-        tianqi_data5=tianqi_html.xpath('//div[@id="day7info"]/ul[1]/li[1]/i/text()')[2].strip()
+        tianqi_data1=tianqi_html.xpath('//div[@class="real-today"]/span/text()')[0][3:]
+        # print(tianqi_data1)
+        tianqi_data2=tianqi_html.xpath('//ul[@class="real-data"]/li/span/text()')[0]
+        # print(tianqi_data2)
+        # tianqi_data3=tianqi_html.xpath('//div[@id="day7info"]/ul[1]/li[1]/i/text()')[0]
+        # tianqi_data4=tianqi_html.xpath('//div[@id="day7info"]/ul[1]/li[1]/i/font/text()')[1]
+        # tianqi_data5=tianqi_html.xpath('//div[@id="day7info"]/ul[1]/li[1]/i/text()')[2].strip()
 
-        tianqi_str = '【天气信息】' + '\n' + tianqi_data1 + '\n' + tianqi_data2+ tianqi_data3+ tianqi_data4+ '\n' + tianqi_data5
-        #print(tianqi_str)
+        tianqi_str = '【天气信息】' + '\n' + tianqi_data1 + '\n' + tianqi_data2
+        # print(tianqi_str)
     except:
         tianqi_str = '【天气信息】' + '\n' + '***没有获取到数据***'
+        # print(tianqi_str)
         
     #限行信息
     xianxing_url = 'http://www.weather.com.cn/weather1d/101030700.shtml'
@@ -160,6 +164,9 @@ def text_reply(msg):
             char=msg.text[4:]
             # print(char)
             add_word(char)
+        if msg.text[0]+msg.text[1]+msg.text[2]+msg.text[3]+msg.text[4] == "query":
+            sql_str=msg.text[6:]
+            itchat.send_msg(str(computer_query(sql_str)), toUserName='filehelper')
 def main():
     while True:
         now = datetime.datetime.now()
