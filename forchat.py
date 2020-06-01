@@ -9,6 +9,7 @@ from lxml import etree
 import pymysql
 from youdao import get_data
 from mysql_operate import computer_query
+from weather import weather_info
 
 
 @itchat.msg_register([PICTURE, RECORDING, ATTACHMENT, VIDEO])
@@ -154,19 +155,22 @@ def add_word(char):
 @itchat.msg_register(itchat.content.TEXT)
 def text_reply(msg):
     if msg["ToUserName"]=="filehelper":
-        if msg.text[0]+msg.text[1]+msg.text[2] == "cmd":
+        if msg.text[:3] == "cmd":
             os.system(msg.text[4:])
-        if msg.text[0]+msg.text[1]+msg.text[2] == "del":
+        if msg.text[:3] == "del":
             char=msg.text[4:]
             # print(char)
             delete_word(char)
-        if msg.text[0]+msg.text[1]+msg.text[2] == "add":
+        if msg.text[:3] == "add":
             char=msg.text[4:]
             # print(char)
             add_word(char)
-        if msg.text[0]+msg.text[1]+msg.text[2]+msg.text[3]+msg.text[4] == "query":
+        if msg.text[:5] == "query":
             sql_str=msg.text[6:]
             itchat.send_msg(str(computer_query(sql_str)), toUserName='filehelper')
+        if msg.text[:2]=="天气":
+            
+            itchat.send_msg(weather_info(), toUserName='filehelper')
 def main():
     while True:
         now = datetime.datetime.now()
