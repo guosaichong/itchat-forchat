@@ -131,22 +131,25 @@ def add_word(char):
     u = cur.fetchone()
     # print(u)
     if u == None:
-        try:
-            paraph=get_data(char)
-            word=paraph[0]
-            IPA=paraph[1]
-            paraphrase=paraph[2]
-            example_sentence=paraph[3]+paraph[4]
-            other=paraph[5]
-            value=(word,IPA,paraphrase,example_sentence,other)
-            sql="insert into english(word,IPA,paraphrase,example_sentence,other)values(%s,%s,%s,%s,%s)"
-            cur.execute(sql,value)
-            conn.commit()
-            # print("已添加")
-            # print(word+'\n'+IPA+'\n'+paraphrase+'\n'+example_sentence+'\n'+other)
-            itchat.send_msg("已添加"+"\n"+word+'\n'+IPA+'\n'+paraphrase+'\n'+example_sentence+'\n'+other, toUserName='filehelper')
-        except Exception as e:
-            itchat.send_msg(e+'\n'+'添加出错！', toUserName='filehelper')
+        if type(get_data(char))!=list:
+            itchat.send_msg('单词拼写错误！', toUserName='filehelper')
+        else:
+            try:
+                paraph=get_data(char)
+                word=paraph[0]
+                IPA=paraph[1]
+                paraphrase=paraph[2]
+                example_sentence=paraph[3]+paraph[4]
+                other=paraph[5]
+                value=(word,IPA,paraphrase,example_sentence,other)
+                sql="insert into english(word,IPA,paraphrase,example_sentence,other)values(%s,%s,%s,%s,%s)"
+                cur.execute(sql,value)
+                conn.commit()
+                # print("已添加")
+                # print(word+'\n'+IPA+'\n'+paraphrase+'\n'+example_sentence+'\n'+other)
+                itchat.send_msg("已添加"+"\n"+word+'\n'+IPA+'\n'+paraphrase+'\n'+example_sentence+'\n'+other, toUserName='filehelper')
+            except:
+                itchat.send_msg('添加出错！', toUserName='filehelper')
     else:
         # print(u[1]+'\n'+u[2]+'\n'+u[3]+'\n'+u[4]+'\n'+u[5])
         itchat.send_msg(u[1]+'\n'+u[2]+'\n'+u[3]+'\n'+u[4]+'\n'+u[5], toUserName='filehelper')
