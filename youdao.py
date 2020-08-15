@@ -38,6 +38,6 @@ def get_data(keyword):
         # print(len(data_list))
         return data_list
     except Exception as e:
-        print(e)
+        return e
 if __name__=="__main__":
-    get_data("recommend")
+    get_data("reco")
