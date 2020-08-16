@@ -53,7 +53,7 @@ def dosth():
     try:
         tianqi_url = 'http://tianqi.2345.com/ninghe1d/60517.htm'
         tianqi_response = requests.get(tianqi_url, headers=headers)
-        tianqi_response.encoding = tianqi_response.apparent_encoding
+        tianqi_response.encoding = "utf-8"
         # print(tianqi_response.text)
         tianqi_html = etree.HTML(tianqi_response.text)
         tianqi_data1=tianqi_html.xpath('//div[@class="real-today"]/span/text()')[0][3:]
