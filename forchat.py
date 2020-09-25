@@ -41,6 +41,7 @@ def dosth():
     try:
         riqi_url = 'http://tools.2345.com/rili.htm'
         response = requests.get(riqi_url, headers=headers)
+        response.encoding = "gb2312"
         html = etree.HTML(response.text)
         data1 = html.xpath('//*[@id="info_all"]/h3/text()')
         data2 = html.xpath('//*[@id="info_nong"]/text()')
