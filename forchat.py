@@ -14,7 +14,7 @@ from weather import weather_info
 
 @itchat.msg_register([PICTURE, RECORDING, ATTACHMENT, VIDEO])
 def download_files(msg):
-    filedpx = r'C:\Users\Administrator\Desktop\微信文件' + '\\' + msg["FileName"]
+    filedpx = r'C:\Users\yf007\Desktop\微信文件' + '\\' + msg["FileName"]
     msg.download(filedpx)
     if itchat.search_friends(userName=msg['FromUserName'])['NickName'] != itchat.search_friends()['NickName']:
         print('收到' + itchat.search_friends(userName=msg['FromUserName'])['NickName'] + '发来的文件：' + msg['FileName'])
@@ -186,8 +186,8 @@ def main():
             time.sleep(60)
 
 if __name__=="__main__":
-    if not os.path.exists(r'C:\Users\Administrator\Desktop\微信文件'):
-        os.mkdir(r'C:\Users\Administrator\Desktop\微信文件')
+    if not os.path.exists(r'C:\Users\yf007\Desktop\微信文件'):
+        os.mkdir(r'C:\Users\yf007\Desktop\微信文件')
     itchat.auto_login(hotReload=True)
     itchat.get_chatrooms(update=True)
     threads = []
